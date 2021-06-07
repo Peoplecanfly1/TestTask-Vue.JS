@@ -1,0 +1,117 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Avenir',
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+#app{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+
+.wrapper{
+  justify-content: center;
+  padding-top: 5rem;
+  display:flex;
+  align-items:top;
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+table {
+  margin-right: 5rem;
+  border-collapse: collapse;
+  table-layout: fixed;
+  height: inherit;
+}
+
+thead {
+  background: #ccc;
+}
+
+td,
+th {
+  border: 1px solid gray;
+  border-top: 0;
+  padding: 2px 5px;
+  width: 300px;
+}
+
+th {
+  border-top: 1px solid gray;
+  cursor: pointer;
+}
+
+.level-2 .name {
+  background: lightblue;
+  
+}
+
+.level-3 .name {
+  background: rgb(29, 127, 167);
+  
+}
+
+.level-4 .name {
+  background: rgb(24, 103, 134);
+  
+}
+
+.level-2>.name {
+  padding-left: 5%
+}
+
+.level-3>.name {
+  padding-left: 10%
+}
+
+.level-4>.name {
+  padding-left: 15%;
+}
+
+.parent .name{
+  cursor: pointer;
+}
+
+.parent > .name::before{
+  content: "+";
+}
+
+form {
+  width: 400px;
+  height:200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid grey;
+  border-radius: 4px;
+}
+
+form button{
+  min-width: 20%;
+  padding: 0.3rem 0.4rem;
+  cursor: pointer;
+}
+
+label{
+  width: 80%;
+  display: flex;
+  justify-content:space-between;
+}
+
+input, select{
+  padding: 0.1rem;
+}
+
+select{
+  min-width: 174px;;
+}
+
