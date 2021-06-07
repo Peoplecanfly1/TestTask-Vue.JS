@@ -16,7 +16,7 @@
       Начальник
       <select v-model="newWorker.manager" name="users" id="test">
         <option value=""></option>
-        <option v-for="(worker,index) in getNames(this.workers)" :key="index" :value="worker"
+        <option v-for="(worker,index) in allWorkersNames" :key="index" :value="worker"
           >{{ worker }}
         </option>
       </select>
@@ -43,35 +43,43 @@ export default {
     };
   },
 
+  mounted(){
+    this.getNameList(this.workers)
+  },
+
+
  
   methods: {
     
     sendNewWorker() {
-      const clone = Object.assign({}, this.newWorker);
+      let clone = Object.assign({}, this.newWorker);
       if(this.workers.length && clone.manager){
-
         clone.lvl = this.workers.find(item => item.name == clone.manager).lvl +1
       }
-    
+      this.allWorkersNames.push(this.newWorker.name); // где-то тут ошибка 
       this.$emit("sendNewWorker", clone);
+
+      
+      
+      
       this.newWorker.name = "";
       this.newWorker.tel = "";
       this.newWorker.manager = "";
     },
 
 
-    getNames(workers){
-      let namesArray  =  []
-      workers.forEach((element,index) => {
-        namesArray.push(element.name)
+    getNameList(workers){
+      
+      workers.forEach((element) => {
+        this.allWorkersNames.push(element.name)
+        
         if(element.childs){
-          this.getNames(element.childs)
+          this.getNameList(element.childs)
         }else{
           return
         }
       });
-      console.log(namesArray)
-      return namesArray
+      
     }
   },
 
