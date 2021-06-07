@@ -6,17 +6,16 @@
     </label>
     <label>
       Номер телефона
-      <input
-        v-model="newWorker.tel"
-        type="tel"
-        required
-      />
+      <input v-model="newWorker.tel" type="tel" required />
     </label>
     <label>
       Начальник
       <select v-model="newWorker.manager" name="users" id="test">
         <option value=""></option>
-        <option v-for="(worker,index) in allWorkersNames" :key="index" :value="worker"
+        <option
+          v-for="(worker, index) in allWorkersNames"
+          :key="index"
+          :value="worker"
           >{{ worker }}
         </option>
       </select>
@@ -38,50 +37,38 @@ export default {
         manager: "",
         isManager: false,
         childs: []
-      }, 
+      },
       allWorkersNames: []
     };
   },
 
-  mounted(){
-    this.getNameList(this.workers)
+  mounted() {
+    this.getNameList(this.workers);
   },
 
-
- 
   methods: {
-    
     sendNewWorker() {
       let clone = Object.assign({}, this.newWorker);
-      if(this.workers.length && clone.manager){
-        clone.lvl = this.workers.find(item => item.name == clone.manager).lvl +1
-      }
-      this.allWorkersNames.push(this.newWorker.name); // где-то тут ошибка 
-      this.$emit("sendNewWorker", clone);
 
-      
-      
-      
+      this.$emit("sendNewWorker", clone);
+      this.allWorkersNames.push(clone.name); //!!!!!!!!!!!!
+
       this.newWorker.name = "";
       this.newWorker.tel = "";
       this.newWorker.manager = "";
     },
 
+    getNameList(workers) {
+      workers.forEach(element => {
+        this.allWorkersNames.push(element.name);
 
-    getNameList(workers){
-      
-      workers.forEach((element) => {
-        this.allWorkersNames.push(element.name)
-        
-        if(element.childs){
-          this.getNameList(element.childs)
-        }else{
-          return
+        if (element.childs) {
+          this.getNameList(element.childs);
+        } else {
+          return;
         }
       });
-      
     }
-  },
-
+  }
 };
 </script>

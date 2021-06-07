@@ -52,10 +52,11 @@ export default {
 
       if (managerName) {
         this.checkNewManagers(this.workers, managerName, newWOrker);
-        // index = this.newWOrkerIndex(newWOrker); // define index of new worker in worker array.
+       
       }else{
         this.workers.push(newWOrker)
       }
+      localStorage.setItem("workers-list", JSON.stringify(this.workers));
     },
 
     checkNewManagers(workers, managerName, newWOrker) {
@@ -70,14 +71,14 @@ export default {
     },
   },
 
-  watch: {
-    workers: {
-      deep: true,
-      handler() {
-        localStorage.setItem("workers-list", JSON.stringify(this.workers));
-      }
-    }
-  },
+  // watch: {
+  //   workers: {
+  //     deep: true,
+  //     handler() {
+        
+  //     }
+  //   }
+  // },
 
   computed: {}
 };
