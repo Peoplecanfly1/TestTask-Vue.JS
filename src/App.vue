@@ -47,7 +47,7 @@ export default {
     },
 
     addToWorkers(newWOrker) {
-      let index; // to delete
+      
       const managerName = newWOrker.manager;
 
       if (managerName) {
@@ -62,6 +62,7 @@ export default {
     checkNewManagers(workers, managerName, newWOrker) {
       workers.forEach((worker, index) => {
         if (worker.name == managerName) {
+          newWOrker.lvl = worker.lvl + 1;
           workers[index].childs.push(newWOrker);
           return;
         } else if (worker.childs.length) {
@@ -70,15 +71,6 @@ export default {
       });
     },
   },
-
-  // watch: {
-  //   workers: {
-  //     deep: true,
-  //     handler() {
-        
-  //     }
-  //   }
-  // },
 
   computed: {}
 };
