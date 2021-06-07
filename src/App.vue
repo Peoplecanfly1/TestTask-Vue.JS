@@ -32,15 +32,54 @@ export default {
     };
   },
 
-  created(){
-
+  created() {
+    // get data from LS if exists
+    const workersData = localStorage.getItem("workers-list");
+    if (!workersData) {
+      return;
+    }
+    this.workers = JSON.parse(workersData);
   },
+
   methods: {
     setVisibility() {
       this.formVisibility = !this.formVisibility;
     },
+
     addToWorkers(newWOrker) {
-      this.workers.push(newWOrker);
+      let index = null; 
+
+      if(newWOrker.manager){
+        this.checkNewManagers(newWOrker);
+        index = this.newWOrkerIndex(newWOrker);
+      };
+      console.log(index)
+      this.workers.splice(index+1, 0, newWOrker)
+    },
+
+    checkNewManagers(newWOrker){
+      let managerSet = this.workers.find(
+        workerData => workerData.name == newWOrker.manager
+      );
+      if(managerSet){
+        managerSet.isManager = true;
+      }
+    },
+
+    newWOrkerIndex(newWOrker){
+      const manager = this.workers.find(manager => manager.name == newWOrker.manager)
+      return this.workers.indexOf(manager)
+    }
+
+
+  },
+
+  watch: {
+    workers: {
+      deep: true,
+      handler() {
+        localStorage.setItem("workers-list", JSON.stringify(this.workers));
+      }
     }
   },
 

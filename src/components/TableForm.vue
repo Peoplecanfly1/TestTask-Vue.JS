@@ -35,16 +35,11 @@ export default {
   props: ["workers"],
   data() {
     return {
-      data: workers
+      
     };
-    
   },
   watch:{
-    workers:{
-      handler(){
-
-      }
-    } 
+   
   }
 
 

@@ -1,12 +1,16 @@
 <template>
-  <form>
+  <form @submit.prevent="sendNewWorker">
     <label>
       Имя
       <input v-model="newWorker.name" type="text" required />
     </label>
     <label>
       Номер телефона
-      <input v-model="newWorker.tel" required />
+      <input
+        v-model="newWorker.tel"
+        type="tel"
+        required
+      />
     </label>
     <label>
       Начальник
@@ -17,7 +21,7 @@
         </option>
       </select>
     </label>
-    <button @click.prevent='sendNewWorker'>Submit</button>
+    <button>Submit</button>
   </form>
 </template>
 
@@ -30,6 +34,7 @@ export default {
       newWorker: {
         name: "",
         tel: "",
+        lvl: 1,
         manager: "",
         isManager: false,
         subordinate: []
@@ -37,14 +42,18 @@ export default {
     };
   },
 
-  methods:{
-      sendNewWorker() {
-        const clone = Object.assign({}, this.newWorker)
-        this.$emit('sendNewWorker', clone)
-        this.newWorker.name = ""
-        this.newWorker.tel = ""
+  methods: {
+    sendNewWorker() {
+      const clone = Object.assign({}, this.newWorker);
+      if(this.workers.length && clone.manager){
+        clone.lvl = this.workers.find(item => item.name == clone.manager).lvl +1
       }
-
+    
+      this.$emit("sendNewWorker", clone);
+      this.newWorker.name = "";
+      this.newWorker.tel = "";
+      this.newWorker.manager = "";
+    }
   },
 
   computed: {}
