@@ -16,8 +16,8 @@
       Начальник
       <select v-model="newWorker.manager" name="users" id="test">
         <option value=""></option>
-        <option v-for="worker in workers" :key="worker.tel" :value="worker.name"
-          >{{ worker.name }}
+        <option v-for="(worker,index) in getNames(this.workers)" :key="index" :value="worker"
+          >{{ worker }}
         </option>
       </select>
     </label>
@@ -37,15 +37,19 @@ export default {
         lvl: 1,
         manager: "",
         isManager: false,
-        subordinate: []
-      }
+        childs: []
+      }, 
+      allWorkersNames: []
     };
   },
 
+ 
   methods: {
+    
     sendNewWorker() {
       const clone = Object.assign({}, this.newWorker);
       if(this.workers.length && clone.manager){
+
         clone.lvl = this.workers.find(item => item.name == clone.manager).lvl +1
       }
     
@@ -53,9 +57,23 @@ export default {
       this.newWorker.name = "";
       this.newWorker.tel = "";
       this.newWorker.manager = "";
+    },
+
+
+    getNames(workers){
+      let namesArray  =  []
+      workers.forEach((element,index) => {
+        namesArray.push(element.name)
+        if(element.childs){
+          this.getNames(element.childs)
+        }else{
+          return
+        }
+      });
+      console.log(namesArray)
+      return namesArray
     }
   },
 
-  computed: {}
 };
 </script>

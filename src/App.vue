@@ -47,31 +47,27 @@ export default {
     },
 
     addToWorkers(newWOrker) {
-      let index = null; 
+      let index; // to delete
+      const managerName = newWOrker.manager;
 
-      if(newWOrker.manager){
-        this.checkNewManagers(newWOrker);
-        index = this.newWOrkerIndex(newWOrker);
-      };
-      console.log(index)
-      this.workers.splice(index+1, 0, newWOrker)
-    },
-
-    checkNewManagers(newWOrker){
-      let managerSet = this.workers.find(
-        workerData => workerData.name == newWOrker.manager
-      );
-      if(managerSet){
-        managerSet.isManager = true;
+      if (managerName) {
+        this.checkNewManagers(this.workers, managerName, newWOrker);
+        // index = this.newWOrkerIndex(newWOrker); // define index of new worker in worker array.
+      }else{
+        this.workers.push(newWOrker)
       }
     },
 
-    newWOrkerIndex(newWOrker){
-      const manager = this.workers.find(manager => manager.name == newWOrker.manager)
-      return this.workers.indexOf(manager)
-    }
-
-
+    checkNewManagers(workers, managerName, newWOrker) {
+      workers.forEach((worker, index) => {
+        if (worker.name == managerName) {
+          workers[index].childs.push(newWOrker);
+          return;
+        } else if (worker.childs.length) {
+          this.checkNewManagers(worker.childs, managerName, newWOrker);
+        }
+      });
+    },
   },
 
   watch: {

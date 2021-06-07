@@ -10,7 +10,11 @@
           <th>Phone</th>
         </tr>
       </thead>
-      <tr v-for="(worker, index) in workers" :key="index">
+      <tr
+        v-for="(worker, index) in workers"
+        v-bind:key="index"
+        v-bind:class="'level-' + worker.lvl.toString()"
+      >
         <td class="name">
           {{ worker.name }}
         </td>
@@ -23,35 +27,16 @@
 </template>
 
 <script>
-//  [] Подход к решению задачи в общем. Норм?
-//  [] К
-//  []Если за место готового массива в цикле v-for: делать функцию, которая бы возвращала нужный массив. То она возвращает результат 2жды почемуто.  при чем не важно куда положить функцию в методы в ватчер или еще куда.
-//  []176 строка , почему-то не работает верно логика постановки курсора.
-//  [] Сейчас я делаю модификацию инлайн стилей, как лучше это все запихнуть просто в стили ?
-//  [] Что нужно вынести в computed, по идее то что вычесляется прям в тимлейте, но у меня ничего такого нет, проблема с архитектурой?
-
 export default {
   name: "TableForm",
   props: ["workers"],
   data() {
-    return {
-      
-    };
+    return {};
   },
-  watch:{
-   
-  }
+  methods: {},
 
-
+  watch: {}
 };
-//   created() {
-//     const employeesData = localStorage.getItem("workers-list");
-//     if (!employeesData) {
-//       return;
-//     }
-
-//     this.employees = JSON.parse(employeesData);
-//   },
 
 //   methods: {
 //     addNewEmployee() {
