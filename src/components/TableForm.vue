@@ -1,6 +1,8 @@
 <template>
   <div class="table-wrapper">
-    <button v-on:click="$emit('formVisibility')" class="add">Add new employee</button>
+    <button v-on:click="$emit('formVisibility')" class="add">
+      Add new employee
+    </button>
     <table class="treetable">
       <thead>
         <tr>
@@ -13,7 +15,7 @@
           {{ worker.name }}
         </td>
         <td>
-          {{ worker.phone }}
+          {{ worker.tel }}
         </td>
       </tr>
     </table>
@@ -33,10 +35,20 @@ export default {
   props: ["workers"],
   data() {
     return {
-      hierarchyIndex: 0
+      data: workers
     };
+    
   },
-}
+  watch:{
+    workers:{
+      handler(){
+
+      }
+    } 
+  }
+
+
+};
 //   created() {
 //     const employeesData = localStorage.getItem("workers-list");
 //     if (!employeesData) {
@@ -168,4 +180,5 @@ export default {
 //     }
 //   }
 // };
-// </script>
+//
+</script>

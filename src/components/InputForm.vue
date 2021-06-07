@@ -39,7 +39,10 @@ export default {
 
   methods:{
       sendNewWorker() {
-        this.$emit('sendNewWorker', this.newWorker)
+        const clone = Object.assign({}, this.newWorker)
+        this.$emit('sendNewWorker', clone)
+        this.newWorker.name = ""
+        this.newWorker.tel = ""
       }
 
   },

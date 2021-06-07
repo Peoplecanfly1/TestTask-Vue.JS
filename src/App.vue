@@ -2,8 +2,13 @@
   <div id="app">
     <Header> </Header>
     <div class="wrapper">
-      <TableForm :workers="workers" v-on:formVisibility="setVisibility" > </TableForm>
-      <InputForm :workers="workers"   v-if='formVisibility'></InputForm >
+      <TableForm :workers="workers" v-on:formVisibility="setVisibility">
+      </TableForm>
+      <InputForm
+        :workers="workers"
+        v-if="formVisibility"
+        @sendNewWorker="addToWorkers"
+      ></InputForm>
     </div>
   </div>
 </template>
@@ -22,21 +27,23 @@ export default {
   },
   data() {
     return {
-      workers: [
-        { name: "Vasya", tel: '8999999999' },
-      ],
-
+      workers: [],
       formVisibility: false
     };
   },
-methods: {
-  setVisibility(){
-     this.formVisibility  = !this.formVisibility
-    }
-},
 
-  computed: {
-    
-  }
+  created(){
+
+  },
+  methods: {
+    setVisibility() {
+      this.formVisibility = !this.formVisibility;
+    },
+    addToWorkers(newWOrker) {
+      this.workers.push(newWOrker);
+    }
+  },
+
+  computed: {}
 };
 </script>
