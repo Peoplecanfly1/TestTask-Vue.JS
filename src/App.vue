@@ -29,7 +29,8 @@ export default {
     return {
       workers: [],
       formVisibility: false,
-      renderList: []
+      renderList: [],
+      newWOrker: null
     };
   },
 
@@ -51,10 +52,13 @@ export default {
       const managerName = newWOrker.manager;
 
       if (managerName) {
+        this.newWOrker = newWOrker;
         this.checkNewManagers(this.workers, managerName, newWOrker);
+        this.pushChildRenderQueue(newWOrker);
       } else {
         this.workers.push(newWOrker);
       }
+
       localStorage.setItem("workers-list", JSON.stringify(this.workers));
     },
 
@@ -71,25 +75,23 @@ export default {
       });
     },
 
-    addWorkerToRenderList(workers){
-      workers.forEach(worker => {
-        this.renderList.push(worker);
-        if(worker.childs){
-          this.addWorkerToRenderList(worker.childs)
-        }
-      })
+    pushChildRenderQueue(newWOrker) {
+      const index =
+        this.renderList.findIndex(item => item.name == newWOrker.manager) + 1;
+      this.renderList.splice(index, 0, newWOrker);
     }
-
   },
 
   watch: {
     workers: {
       handler() {
-        this.renderList = []
-        this.addWorkerToRenderList(this.workers)
+        this.workers.forEach(item => {
+          if (!this.renderList.includes(item)) {
+            this.renderList.push(item);
+          }
+        });
       }
-    },
-     deep: true,
+    }
   }
 };
 </script>
