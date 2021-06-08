@@ -83,12 +83,13 @@ export default {
   },
 
   watch: {
-    deep: true,
     workers: {
       handler() {
+        this.renderList = []
         this.addWorkerToRenderList(this.workers)
       }
-    }
+    },
+     deep: true,
   }
 };
 </script>
