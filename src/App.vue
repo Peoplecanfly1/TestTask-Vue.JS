@@ -2,7 +2,11 @@
   <div id="app">
     <Header> </Header>
     <div class="wrapper">
-      <TableForm :renderList="renderList" v-on:formVisibility="setVisibility">
+      <TableForm
+        :renderList="renderList"
+        v-on:formVisibility="setVisibility"
+        @collapse="nameSort"
+      >
       </TableForm>
       <InputForm
         :workers="workers"
@@ -41,11 +45,41 @@ export default {
       return;
     }
     this.workers = JSON.parse(workersData);
+
+    // make a renderlist
+    this.RenderQueueOnLoadFilling(this.workers);
   },
 
   methods: {
     setVisibility() {
       this.formVisibility = !this.formVisibility;
+    },
+
+    nameSort(worker) {
+      if (!worker.isManager) {
+        return;
+      }
+      console.log('worker click', worker)
+      worker.show = !worker.show;
+      const status = worker.show;
+      this.setShowStatus(worker.childs, status);
+    },
+
+    setShowStatus(workers, status) {
+      console.log(workers)
+      workers.forEach(item => {
+        item.show = status;
+        if (status) {
+          console.log("item to display", item);
+          item.style.display = "table-row";
+        } else if (!status) {
+          console.log("item to hide", item);
+          item.style.display = "none";
+        }
+        // if (item.childs) {
+        //   this.setShowStatus(item.childs, status);
+        // }
+      });
     },
 
     addToWorkers(newWOrker) {
@@ -54,10 +88,11 @@ export default {
       if (managerName) {
         this.newWOrker = newWOrker;
         this.checkNewManagers(this.workers, managerName, newWOrker);
-        this.pushChildRenderQueue(newWOrker);
       } else {
         this.workers.push(newWOrker);
       }
+
+      this.pushChildInRenderQueue(newWOrker);
 
       localStorage.setItem("workers-list", JSON.stringify(this.workers));
     },
@@ -67,7 +102,9 @@ export default {
         if (worker.name == managerName) {
           newWOrker.lvl = worker.lvl + 1; // increase lvl of worker
           worker.isManager = true; // set managerStatus
+          worker.style = { cursor: "pointer" }; // set cursor pointer for manager
           workers[index].childs.push(newWOrker); // push worker as a child
+          newWOrker.show = worker.show;
           return;
         } else if (worker.childs.length) {
           this.checkNewManagers(worker.childs, managerName, newWOrker);
@@ -75,22 +112,23 @@ export default {
       });
     },
 
-    pushChildRenderQueue(newWOrker) {
-      const index =
-        this.renderList.findIndex(item => item.name == newWOrker.manager) + 1;
-      this.renderList.splice(index, 0, newWOrker);
-    }
-  },
-
-  watch: {
-    workers: {
-      handler() {
-        this.workers.forEach(item => {
-          if (!this.renderList.includes(item)) {
-            this.renderList.push(item);
-          }
-        });
+    pushChildInRenderQueue(newWOrker) {
+      if (!newWOrker.manager) {
+        this.renderList.push(newWOrker);
+      } else {
+        const index =
+          this.renderList.findIndex(item => item.name == newWOrker.manager) + 1;
+        this.renderList.splice(index, 0, newWOrker);
       }
+    },
+
+    RenderQueueOnLoadFilling(workers) {
+      workers.forEach(worker => {
+        this.renderList.push(worker);
+        if (worker.childs) {
+          this.RenderQueueOnLoadFilling(worker.childs);
+        }
+      });
     }
   }
 };

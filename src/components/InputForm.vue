@@ -38,6 +38,7 @@ export default {
         isManager: false,
         childs: [],
         show: true,
+        style: { cursor: "default", display: "table-row" }
       },
       allWorkersNames: []
     };
@@ -68,12 +69,13 @@ export default {
       });
     },
 
-     cleanForm(){
+    cleanForm() {
       this.newWorker.name = "";
       this.newWorker.tel = "";
       this.newWorker.manager = "";
       this.newWorker.childs = [];
-     }
+      this.newWorker.style.cursor = "default";
+    }
   }
 };
 </script>

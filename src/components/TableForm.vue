@@ -14,6 +14,8 @@
         v-for="(worker, index) in renderList"
         v-bind:key="index"
         v-bind:class="'level-' + worker.lvl.toString()"
+        v-bind:style="worker.style"
+        @click="collapse(worker)"
       >
         <td class="name">
           {{ worker.name }}
@@ -33,7 +35,12 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+      collapse(worker){
+        this.$emit("collapse", worker)
+      }
+
+  },
 
   watch: {}
 };
