@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tr
-        v-for="(worker, index) in workers"
+        v-for="(worker, index) in renderList"
         v-bind:key="index"
         v-bind:class="'level-' + worker.lvl.toString()"
       >
@@ -29,7 +29,7 @@
 <script>
 export default {
   name: "TableForm",
-  props: ["workers"],
+  props: ["renderList"],
   data() {
     return {};
   },
