@@ -10,14 +10,22 @@
 
 #app{
   display:flex;
+  flex-direction: column;
   align-items:center;
   justify-content:space-between;
+}
+
+header{
+  width:100%;
+  height: 60px;
+  text-align: center;
+  margin-top: 2rem;
 }
 
 
 .wrapper{
   justify-content: center;
-  padding-top: 5rem;
+  
   display:flex;
   align-items:top;
   width: 80%;
@@ -25,8 +33,15 @@
   margin: 0 auto;
 }
 
+.table-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2rem;
+}
+
 table {
-  margin-right: 5rem;
+  margin-top: 1rem;
   border-collapse: collapse;
   table-layout: fixed;
   height: inherit;
@@ -95,7 +110,7 @@ form {
   border-radius: 4px;
 }
 
-form button{
+button{
   min-width: 20%;
   padding: 0.3rem 0.4rem;
   cursor: pointer;
