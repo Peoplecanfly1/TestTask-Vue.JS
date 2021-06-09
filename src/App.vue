@@ -59,14 +59,14 @@ export default {
       if (!worker.isManager) {
         return;
       }
-      console.log('worker click', worker)
+      console.log("worker click", worker);
       worker.show = !worker.show;
       const status = worker.show;
       this.setShowStatus(worker.childs, status);
     },
 
     setShowStatus(workers, status) {
-      console.log(workers)
+      console.log(workers);
       workers.forEach(item => {
         item.show = status;
         if (status) {
@@ -76,9 +76,9 @@ export default {
           console.log("item to hide", item);
           item.style.display = "none";
         }
-        // if (item.childs) {
-        //   this.setShowStatus(item.childs, status);
-        // }
+        if (item.childs) {
+          this.setShowStatus(item.childs, status);
+        }
       });
     },
 
